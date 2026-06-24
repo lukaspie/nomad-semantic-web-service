@@ -5,7 +5,6 @@
 ![](https://img.shields.io/pypi/pyversions/nomad-semantic-web-service)
 ![](https://img.shields.io/pypi/l/nomad-semantic-web-service)
 ![](https://img.shields.io/pypi/v/nomad-semantic-web-service)
-![Coverage Status](https://coveralls.io/repos/github/FAIRmat-NFDI/nomad-semantic-web-service/badge.svg?branch=main)
 
 # `nomad-semantic-web-service`: ESRF-style public dataset catalogue for NOMAD
 
