@@ -8,7 +8,9 @@ from typing import Any
 from owlready2 import PREDEFINED_ONTOLOGIES, World
 from rdflib import Graph
 
-ESRFET_ONTOLOGY_PATH = Path(__file__).resolve().parent.parent / 'ontologies' / 'ESRFET.owl'
+ESRFET_ONTOLOGY_PATH = (
+    Path(__file__).resolve().parent.parent / 'ontologies' / 'ESRFET.owl'
+)
 ESRFET_PURL_PREFIX = 'http://purl.org/pan-science/ESRFET#'
 PANET_PURL_PREFIX = 'http://purl.org/pan-science/PaNET/'
 PANET_IMPORT_IRI = 'http://purl.org/pan-science/PaNET/PaNET.owl'

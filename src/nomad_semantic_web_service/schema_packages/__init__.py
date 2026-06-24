@@ -10,7 +10,5 @@ class DatasetSearchEntryPoint(SchemaPackageEntryPoint):
 
 schema_package_entry_point = DatasetSearchEntryPoint(
     name='DatasetSearchSchemaPackage',
-    description=(
-        'ELN schema for ESRF-style public dataset catalogue search requests.'
-    ),
+    description=('ELN schema for ESRF-style public dataset catalogue search requests.'),
 )

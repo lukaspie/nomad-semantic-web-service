@@ -6,7 +6,10 @@ def test_landing_page_for_dataset_with_doi():
         'id': 2008212345,
         'investigation': {'doi': '10.15151/ESRF-ES-750932592'},
     }
-    assert landing_page_for_dataset(dataset) == 'https://doi.org/10.15151/ESRF-ES-750932592'
+    assert (
+        landing_page_for_dataset(dataset)
+        == 'https://doi.org/10.15151/ESRF-ES-750932592'
+    )
 
 
 def test_landing_page_for_dataset_without_investigation():

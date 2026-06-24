@@ -136,7 +136,9 @@ class DatasetSearchRequest(Schema):
             'be reviewed before it is used to search (mirrors the confirmation '
             'prompt in the original CLI agent).'
         ),
-        a_eln=ELNAnnotation(component=ELNComponentEnum.ActionEditQuantity, label='Run Search'),
+        a_eln=ELNAnnotation(
+            component=ELNComponentEnum.ActionEditQuantity, label='Run Search'
+        ),
     )
     matched_datasets = SubSection(section_def=MatchedDataset, repeats=True)
 
@@ -186,7 +188,9 @@ class DatasetSearchRequest(Schema):
             return
 
         try:
-            search = search_icat_datasets if self.use_real_icat else search_local_datasets
+            search = (
+                search_icat_datasets if self.use_real_icat else search_local_datasets
+            )
             raw = search(
                 self.start_date,
                 self.end_date,

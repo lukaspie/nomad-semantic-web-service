@@ -18,7 +18,12 @@ FAKE_DATASETS: list[dict[str, Any]] = [
         'instrumentName': 'ID21',
         'sampleName': 'ceria-supported platinum catalyst',
         'techniques': [
-            {'id': 1, 'datasetId': 1001, 'pid': 'https://w3id.org/PaN/ESRFET#XAS', 'name': 'XAS'},
+            {
+                'id': 1,
+                'datasetId': 1001,
+                'pid': 'https://w3id.org/PaN/ESRFET#XAS',
+                'name': 'XAS',
+            },
         ],
     },
     {
@@ -31,8 +36,18 @@ FAKE_DATASETS: list[dict[str, Any]] = [
         'instrumentName': 'ID21',
         'sampleName': 'iron oxide calibration foil',
         'techniques': [
-            {'id': 2, 'datasetId': 1002, 'pid': 'https://w3id.org/PaN/ESRFET#ED-XAS', 'name': 'ED-XAS'},
-            {'id': 3, 'datasetId': 1002, 'pid': 'https://w3id.org/PaN/ESRFET#XAS', 'name': 'XAS'},
+            {
+                'id': 2,
+                'datasetId': 1002,
+                'pid': 'https://w3id.org/PaN/ESRFET#ED-XAS',
+                'name': 'ED-XAS',
+            },
+            {
+                'id': 3,
+                'datasetId': 1002,
+                'pid': 'https://w3id.org/PaN/ESRFET#XAS',
+                'name': 'XAS',
+            },
         ],
     },
     {
@@ -45,7 +60,12 @@ FAKE_DATASETS: list[dict[str, Any]] = [
         'instrumentName': 'ID24',
         'sampleName': 'lithium nickel manganese cobalt oxide electrode',
         'techniques': [
-            {'id': 4, 'datasetId': 1003, 'pid': 'https://w3id.org/PaN/ESRFET#ED-XAS', 'name': 'ED-XAS'},
+            {
+                'id': 4,
+                'datasetId': 1003,
+                'pid': 'https://w3id.org/PaN/ESRFET#ED-XAS',
+                'name': 'ED-XAS',
+            },
         ],
     },
     {
@@ -58,7 +78,12 @@ FAKE_DATASETS: list[dict[str, Any]] = [
         'instrumentName': 'ID19',
         'sampleName': 'painted ceramic fragment',
         'techniques': [
-            {'id': 5, 'datasetId': 1004, 'pid': 'https://w3id.org/PaN/ESRFET#TOMO', 'name': 'TOMO'},
+            {
+                'id': 5,
+                'datasetId': 1004,
+                'pid': 'https://w3id.org/PaN/ESRFET#TOMO',
+                'name': 'TOMO',
+            },
         ],
     },
 ]
