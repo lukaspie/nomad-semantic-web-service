@@ -26,7 +26,16 @@ maintainers = [
 license = { file = "LICENSE" }
 dependencies = [
     "nomad-lab>=1.4.1",
-    "fastapi"
+    "fastapi",
+    "httpx",
+    "owlready2",
+    "rdflib",
+    # nomad-lab's own "infrastructure" extra pins rdflib==5 workspace-wide; that
+    # version's SPARQL parser is broken with pyparsing>=3 (any query fails with
+    # AttributeError: 'NoneType' object has no attribute 'name'). Pin pyparsing
+    # back to restore SPARQL support, since nothing else in this workspace
+    # constrains it to >=3.
+    "pyparsing<3",
 ]
 
 [project.urls]
@@ -38,7 +47,7 @@ dev = [
     "pytest",
     "structlog",
     "mkdocs",
-    "mkdocs-material==8.1.1",
+    "mkdocs-material",
     "pymdown-extensions",
     "mkdocs-click",
     "pytest-asyncio",
@@ -127,6 +136,9 @@ package-dir = { "" = "src" }
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+nomad_semantic_web_service = ["ontologies/*.owl"]
 
 [project.entry-points.'nomad.plugin']
 

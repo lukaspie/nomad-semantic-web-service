@@ -1,18 +1,29 @@
 # Welcome to the `nomad-semantic-web-service` documentation
 
-A tool to query public synchrotron dataset catalogues with semantic OpenAPI annotations.
+A NOMAD plugin that finds and extracts public synchrotron dataset records from
+ESRF-style catalogues, with semantic OpenAPI annotations and PANET/ESRFET
+ontology term mapping.
 
 ## Introduction
 
-!!! note "Attention"
-    TODO
+This plugin brings the [`oscarsSemanticWebService`](https://github.com/gkoum/oscarsSemanticWebService)
+proof-of-concept by Giannis Koumoutsos into NOMAD as two cooperating entry points:
+
+- A mounted REST API (`/catalogue/public/datasets`, `/icat/catalogue/public/datasets`,
+  `/map`, `/health`) for machine clients, with `x-*` semantic annotations on its
+  OpenAPI contract.
+- An ELN schema, `DatasetSearchRequest`, that lets a user describe a catalogue
+  search (synchrotron, technique term, date range, instrument) as a NOMAD entry;
+  `normalize()` runs the search and stores matched datasets back into the entry.
+
+Both share the same underlying domain logic (`catalogue/icat.py`,
+`catalogue/ontology.py`, `catalogue/search.py`), which has no FastAPI dependency
+and is called directly by each entry point — never over HTTP loopback.
 
 <div markdown="block" class="home-grid">
 <div markdown="block">
 
 ### Tutorial
-
-TODO
 
 - [Tutorial](tutorial/tutorial.md)
 
@@ -41,8 +52,8 @@ The explanation [section](explanation/explanation.md) provides background knowle
 
 ### Reference
 
-The reference [section](reference/references.md) includes all CLI commands and arguments, all configuration options,
-the possible schema annotations and their arguments, and a glossary of used terms.
+The reference [section](reference/references.md) includes the REST API routes,
+the `DatasetSearchRequest` ELN schema fields, and the relevant configuration options.
 
 </div>
 </div>
