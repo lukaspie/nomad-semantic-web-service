@@ -9,10 +9,10 @@ class SemanticWebServiceAPIEntryPoint(APIEntryPoint):
 
 
 api_entry_point = SemanticWebServiceAPIEntryPoint(
-    prefix='semantic-web-service',
-    name='SemanticWebServiceAPI',
+    prefix="semantic-web-service",
+    name="SemanticWebServiceAPI",
     description=(
-        'ESRF-style public dataset catalogue endpoint with PANET/ESRFET '
-        'semantic OpenAPI annotations.'
+        "ESRF-style public dataset catalogue endpoint with PANET/ESRFET "
+        "semantic OpenAPI annotations."
     ),
 )

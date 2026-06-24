@@ -10,19 +10,19 @@ from nomad_semantic_web_service.catalogue.icat import fetch_icat_public_datasets
 # catalogue.ontology.ESRFET_PURL_PREFIX (the purl.org namespace used internally
 # by ESRFET.owl). canonical_technique_pid() translates purl.org -> w3id.org so
 # user-supplied PURL-form IRIs match the w3id-form IRIs stored on datasets.
-ESRFET = 'https://w3id.org/PaN/ESRFET#'
-ESRFET_PURL = 'http://purl.org/pan-science/ESRFET#'
+ESRFET = "https://w3id.org/PaN/ESRFET#"
+ESRFET_PURL = "http://purl.org/pan-science/ESRFET#"
 
 
 def normalize_esrfet_term(term: str) -> str:
     """Normalizes a user-supplied ESRFET term to the w3id.org IRI form used by
     dataset records (e.g. "XAS" or "ESRFET:XAS" -> "https://w3id.org/PaN/ESRFET#XAS")."""
     cleaned = term.strip()
-    if cleaned.startswith('http://') or cleaned.startswith('https://'):
+    if cleaned.startswith("http://") or cleaned.startswith("https://"):
         return cleaned
-    if cleaned.startswith('ESRFET:'):
-        cleaned = cleaned.split(':', 1)[1]
-    if cleaned.startswith('#'):
+    if cleaned.startswith("ESRFET:"):
+        cleaned = cleaned.split(":", 1)[1]
+    if cleaned.startswith("#"):
         cleaned = cleaned[1:]
     return ESRFET + cleaned
 
@@ -38,7 +38,7 @@ def parse_technique_pids(technique_pids: str | None) -> set[str]:
         return set()
     return {
         canonical_technique_pid(pid.strip())
-        for pid in technique_pids.split(',')
+        for pid in technique_pids.split(",")
         if pid.strip()
     }
 
@@ -47,9 +47,9 @@ def technique_pids_of(dataset: dict[str, Any]) -> list[str]:
     """Extracts technique PIDs from a dataset record's `techniques` list
     (the shape used by both FAKE_DATASETS and real ICAT+ records)."""
     return [
-        technique['pid']
-        for technique in dataset.get('techniques', [])
-        if technique.get('pid')
+        technique["pid"]
+        for technique in dataset.get("techniques", [])
+        if technique.get("pid")
     ]
 
 
@@ -65,8 +65,8 @@ def search_local_datasets(
     return [
         dataset
         for dataset in FAKE_DATASETS
-        if dataset['startDate'] >= start_date
-        and dataset['endDate'] <= end_date
+        if dataset["startDate"] >= start_date
+        and dataset["endDate"] <= end_date
         and (
             not requested_techniques
             or requested_techniques.intersection(
@@ -75,7 +75,7 @@ def search_local_datasets(
         )
         and (
             requested_instrument is None
-            or dataset['instrumentName'].lower() == requested_instrument
+            or dataset["instrumentName"].lower() == requested_instrument
         )
     ]
 

@@ -17,237 +17,237 @@ from nomad_semantic_web_service.catalogue.search import (
     technique_pids_of,
 )
 
-ESRFET = 'https://w3id.org/PaN/ESRFET#'
-ESRFET_PURL = 'http://purl.org/pan-science/ESRFET#'
-PANET = 'http://purl.org/pan-science/PaNET/'
-OWL_TIME = 'http://www.w3.org/2006/time#'
-OWL = 'http://www.w3.org/2002/07/owl#'
-XSD = 'http://www.w3.org/2001/XMLSchema#'
-DCAT = 'http://www.w3.org/ns/dcat#'
-DCTERMS = 'http://purl.org/dc/terms/'
-SCHEMA = 'https://schema.org/'
+ESRFET = "https://w3id.org/PaN/ESRFET#"
+ESRFET_PURL = "http://purl.org/pan-science/ESRFET#"
+PANET = "http://purl.org/pan-science/PaNET/"
+OWL_TIME = "http://www.w3.org/2006/time#"
+OWL = "http://www.w3.org/2002/07/owl#"
+XSD = "http://www.w3.org/2001/XMLSchema#"
+DCAT = "http://www.w3.org/ns/dcat#"
+DCTERMS = "http://purl.org/dc/terms/"
+SCHEMA = "https://schema.org/"
 
 
 class Dataset(BaseModel):
     model_config = ConfigDict(
         json_schema_extra={
-            'x-semantic-type': DCAT + 'Dataset',
-            'x-jsonld-context': {
-                'dcat': DCAT,
-                'dcterms': DCTERMS,
-                'schema': SCHEMA,
-                'esrfet': ESRFET,
-                'time': OWL_TIME,
-                'id': '@id',
-                'name': 'dcterms:title',
-                'startDate': {
-                    '@id': SCHEMA + 'startDate',
-                    '@type': XSD + 'dateTime',
+            "x-semantic-type": DCAT + "Dataset",
+            "x-jsonld-context": {
+                "dcat": DCAT,
+                "dcterms": DCTERMS,
+                "schema": SCHEMA,
+                "esrfet": ESRFET,
+                "time": OWL_TIME,
+                "id": "@id",
+                "name": "dcterms:title",
+                "startDate": {
+                    "@id": SCHEMA + "startDate",
+                    "@type": XSD + "dateTime",
                 },
-                'endDate': {
-                    '@id': SCHEMA + 'endDate',
-                    '@type': XSD + 'dateTime',
+                "endDate": {
+                    "@id": SCHEMA + "endDate",
+                    "@type": XSD + "dateTime",
                 },
-                'instrumentName': 'schema:instrument',
-                'techniquePids': {
-                    '@id': 'esrfet:usesTechnique',
-                    '@type': '@id',
+                "instrumentName": "schema:instrument",
+                "techniquePids": {
+                    "@id": "esrfet:usesTechnique",
+                    "@type": "@id",
                 },
-                'sampleName': 'schema:sampleType',
+                "sampleName": "schema:sampleType",
             },
         }
     )
 
     id: int = Field(
         examples=[1001],
-        json_schema_extra={'x-semantic-type': DCTERMS + 'identifier'},
+        json_schema_extra={"x-semantic-type": DCTERMS + "identifier"},
     )
     name: str = Field(
-        examples=['ID21 XAS catalyst oxidation-state dataset'],
-        json_schema_extra={'x-semantic-type': DCTERMS + 'title'},
+        examples=["ID21 XAS catalyst oxidation-state dataset"],
+        json_schema_extra={"x-semantic-type": DCTERMS + "title"},
     )
     startDate: datetime = Field(
-        examples=['2024-03-18T09:15:00Z'],
+        examples=["2024-03-18T09:15:00Z"],
         json_schema_extra={
-            'x-semantic-type': OWL_TIME + 'Instant',
-            'x-datatype': XSD + 'dateTime',
+            "x-semantic-type": OWL_TIME + "Instant",
+            "x-datatype": XSD + "dateTime",
         },
     )
     endDate: datetime = Field(
-        examples=['2024-03-18T11:45:00Z'],
+        examples=["2024-03-18T11:45:00Z"],
         json_schema_extra={
-            'x-semantic-type': OWL_TIME + 'Instant',
-            'x-datatype': XSD + 'dateTime',
+            "x-semantic-type": OWL_TIME + "Instant",
+            "x-datatype": XSD + "dateTime",
         },
     )
     instrumentName: str = Field(
-        examples=['ID21'],
-        json_schema_extra={'x-semantic-type': SCHEMA + 'instrument'},
+        examples=["ID21"],
+        json_schema_extra={"x-semantic-type": SCHEMA + "instrument"},
     )
     techniquePids: list[str] = Field(
-        examples=[['https://w3id.org/PaN/ESRFET#XAS']],
+        examples=[["https://w3id.org/PaN/ESRFET#XAS"]],
         json_schema_extra={
-            'x-semantic-type': ESRFET + 'experimental_technique',
-            'x-value-kind': 'iri-list',
-            'x-ontology': ESRFET.rstrip('#'),
+            "x-semantic-type": ESRFET + "experimental_technique",
+            "x-value-kind": "iri-list",
+            "x-ontology": ESRFET.rstrip("#"),
         },
     )
     sampleName: str = Field(
-        examples=['lysozyme microcrystals'],
-        json_schema_extra={'x-semantic-type': SCHEMA + 'sampleType'},
+        examples=["lysozyme microcrystals"],
+        json_schema_extra={"x-semantic-type": SCHEMA + "sampleType"},
     )
 
 
 class MappingResult(BaseModel):
     model_config = ConfigDict(
         json_schema_extra={
-            'x-semantic-type': OWL + 'Class',
-            'x-semantic-relation': OWL + 'equivalentClass',
+            "x-semantic-type": OWL + "Class",
+            "x-semantic-relation": OWL + "equivalentClass",
         }
     )
 
     sourceTerm: str = Field(
-        examples=['http://purl.org/pan-science/PaNET/PaNET01196'],
-        json_schema_extra={'x-semantic-type': PANET + 'PaNETConcept'},
+        examples=["http://purl.org/pan-science/PaNET/PaNET01196"],
+        json_schema_extra={"x-semantic-type": PANET + "PaNETConcept"},
     )
-    sourceCompact: str = Field(examples=['PaNET:PaNET01196'])
+    sourceCompact: str = Field(examples=["PaNET:PaNET01196"])
     targetTerm: str = Field(
-        examples=['http://purl.org/pan-science/ESRFET#XAS'],
-        json_schema_extra={'x-semantic-type': ESRFET_PURL + 'experimental_technique'},
+        examples=["http://purl.org/pan-science/ESRFET#XAS"],
+        json_schema_extra={"x-semantic-type": ESRFET_PURL + "experimental_technique"},
     )
-    targetCompact: str = Field(examples=['ESRFET:XAS'])
-    targetLabel: str = Field(examples=['XAS'])
+    targetCompact: str = Field(examples=["ESRFET:XAS"])
+    targetLabel: str = Field(examples=["XAS"])
     relation: str = Field(
-        examples=['owl:equivalentClass'],
-        json_schema_extra={'x-semantic-type': OWL + 'equivalentClass'},
+        examples=["owl:equivalentClass"],
+        json_schema_extra={"x-semantic-type": OWL + "equivalentClass"},
     )
 
 
 class MappingResponse(BaseModel):
     model_config = ConfigDict(
         json_schema_extra={
-            'x-semantic-type': 'https://schema.org/DefinedTermSet',
-            'x-source-ontology': PANET.rstrip('/'),
-            'x-target-ontology': ESRFET_PURL.rstrip('#'),
+            "x-semantic-type": "https://schema.org/DefinedTermSet",
+            "x-source-ontology": PANET.rstrip("/"),
+            "x-target-ontology": ESRFET_PURL.rstrip("#"),
         }
     )
 
-    source: str = Field(examples=['PANET'])
-    target: str = Field(examples=['ESRFET'])
-    term: str = Field(examples=['http://purl.org/pan-science/PaNET/PaNET01196'])
+    source: str = Field(examples=["PANET"])
+    target: str = Field(examples=["ESRFET"])
+    term: str = Field(examples=["http://purl.org/pan-science/PaNET/PaNET01196"])
     targetTerm: str | None = Field(
         default=None,
-        examples=['https://w3id.org/PaN/ESRFET#XAS'],
-        json_schema_extra={'x-semantic-type': ESRFET_PURL + 'experimental_technique'},
+        examples=["https://w3id.org/PaN/ESRFET#XAS"],
+        json_schema_extra={"x-semantic-type": ESRFET_PURL + "experimental_technique"},
     )
     mappings: list[MappingResult]
 
 
 api_entry_point = config.get_plugin_entry_point(
-    'nomad_semantic_web_service.apis:api_entry_point'
+    "nomad_semantic_web_service.apis:api_entry_point"
 )
 
 app = FastAPI(
-    root_path=f'{config.services.api_base_path}/{api_entry_point.prefix}',
-    title='Semantic Web Service',
+    root_path=f"{config.services.api_base_path}/{api_entry_point.prefix}",
+    title="Semantic Web Service",
     description=(
-        'Demonstrator for an ESRF-style catalogue endpoint enriched '
-        'with semantic OpenAPI annotations.'
+        "Demonstrator for an ESRF-style catalogue endpoint enriched "
+        "with semantic OpenAPI annotations."
     ),
 )
 
 
 @app.get(
-    '/catalogue/public/datasets',
+    "/catalogue/public/datasets",
     response_model=list[Dataset],
-    tags=['Catalogue'],
-    summary='Returns public datasets',
-    description='Returns public datasets filtered by date range, technique, and instrument.',
-    operation_id='get_catalogue_public_datasets',
+    tags=["Catalogue"],
+    summary="Returns public datasets",
+    description="Returns public datasets filtered by date range, technique, and instrument.",
+    operation_id="get_catalogue_public_datasets",
 )
 def get_public_datasets(
     startDate: Annotated[
         datetime,
         Query(
-            description='Start date, ISO 8601 date-time.',
-            examples=['2024-01-01T00:00:00Z'],
+            description="Start date, ISO 8601 date-time.",
+            examples=["2024-01-01T00:00:00Z"],
         ),
     ],
     endDate: Annotated[
         datetime,
         Query(
-            description='End date, ISO 8601 date-time.',
-            examples=['2024-12-31T23:59:59Z'],
+            description="End date, ISO 8601 date-time.",
+            examples=["2024-12-31T23:59:59Z"],
         ),
     ],
     techniquePids: Annotated[
         str | None,
         Query(
-            description='Technique PIDs used to filter datasets, comma-separated.',
-            examples=['https://w3id.org/PaN/ESRFET#XAS'],
+            description="Technique PIDs used to filter datasets, comma-separated.",
+            examples=["https://w3id.org/PaN/ESRFET#XAS"],
         ),
     ] = None,
     instrumentName: Annotated[
         str | None,
         Query(
-            description='Name of the beamline or instrument.',
-            examples=['ID21'],
+            description="Name of the beamline or instrument.",
+            examples=["ID21"],
         ),
     ] = None,
 ) -> list[dict[str, Any]]:
     datasets = search_local_datasets(startDate, endDate, techniquePids, instrumentName)
     return [
         {
-            'id': dataset['id'],
-            'name': dataset['name'],
-            'startDate': dataset['startDate'],
-            'endDate': dataset['endDate'],
-            'instrumentName': dataset['instrumentName'],
-            'techniquePids': technique_pids_of(dataset),
-            'sampleName': dataset['sampleName'],
+            "id": dataset["id"],
+            "name": dataset["name"],
+            "startDate": dataset["startDate"],
+            "endDate": dataset["endDate"],
+            "instrumentName": dataset["instrumentName"],
+            "techniquePids": technique_pids_of(dataset),
+            "sampleName": dataset["sampleName"],
         }
         for dataset in datasets
     ]
 
 
 @app.get(
-    '/icat/catalogue/public/datasets',
+    "/icat/catalogue/public/datasets",
     response_model=None,
-    tags=['ICAT Proxy'],
-    summary='Returns public datasets from the real ESRF ICAT+ endpoint',
+    tags=["ICAT Proxy"],
+    summary="Returns public datasets from the real ESRF ICAT+ endpoint",
     description=(
-        'Forwards only startDate, endDate, techniquePids, and instrumentName '
-        'to the real ESRF ICAT+ /catalogue/public/datasets endpoint.'
+        "Forwards only startDate, endDate, techniquePids, and instrumentName "
+        "to the real ESRF ICAT+ /catalogue/public/datasets endpoint."
     ),
-    operation_id='get_real_icat_public_datasets',
+    operation_id="get_real_icat_public_datasets",
 )
 def get_real_icat_public_datasets(
     startDate: Annotated[
         date,
         Query(
-            description='Start date forwarded to ICAT+ in YYYY-MM-DD format.',
-            examples=['2024-01-01'],
+            description="Start date forwarded to ICAT+ in YYYY-MM-DD format.",
+            examples=["2024-01-01"],
         ),
     ],
     endDate: Annotated[
         date,
         Query(
-            description='End date forwarded to ICAT+ in YYYY-MM-DD format.',
-            examples=['2024-12-31'],
+            description="End date forwarded to ICAT+ in YYYY-MM-DD format.",
+            examples=["2024-12-31"],
         ),
     ],
     techniquePids: Annotated[
         str | None,
         Query(
-            description='Technique PIDs forwarded to ICAT+, comma-separated.',
-            examples=['https://w3id.org/PaN/ESRFET#XAS'],
+            description="Technique PIDs forwarded to ICAT+, comma-separated.",
+            examples=["https://w3id.org/PaN/ESRFET#XAS"],
         ),
     ] = None,
     instrumentName: Annotated[
         str | None,
         Query(
-            description='Beamline or instrument name forwarded to ICAT+.',
-            examples=['ID21'],
+            description="Beamline or instrument name forwarded to ICAT+.",
+            examples=["ID21"],
         ),
     ] = None,
 ) -> Any:
@@ -257,60 +257,60 @@ def get_real_icat_public_datasets(
         raise HTTPException(
             status_code=exc.response.status_code,
             detail={
-                'upstream': ICAT_PUBLIC_DATASETS_URL,
-                'message': exc.response.text,
+                "upstream": ICAT_PUBLIC_DATASETS_URL,
+                "message": exc.response.text,
             },
         ) from exc
     except httpx.HTTPError as exc:
         raise HTTPException(
             status_code=502,
             detail={
-                'upstream': ICAT_PUBLIC_DATASETS_URL,
-                'message': str(exc),
+                "upstream": ICAT_PUBLIC_DATASETS_URL,
+                "message": str(exc),
             },
         ) from exc
 
 
 @app.get(
-    '/map',
+    "/map",
     response_model=MappingResponse,
-    tags=['Ontology Mapping'],
-    summary='Map a PANET term to ESRFET',
+    tags=["Ontology Mapping"],
+    summary="Map a PANET term to ESRFET",
     description=(
-        'Queries the local ESRFET ontology for owl:equivalentClass mappings '
-        'from a PANET term to ESRFET terms.'
+        "Queries the local ESRFET ontology for owl:equivalentClass mappings "
+        "from a PANET term to ESRFET terms."
     ),
-    operation_id='map_panet_to_esrfet',
+    operation_id="map_panet_to_esrfet",
 )
 def map_panet_to_esrfet(
     term: Annotated[
         str,
         Query(
-            description='PANET term IRI, compact term, or local identifier.',
+            description="PANET term IRI, compact term, or local identifier.",
             examples=[
-                'http://purl.org/pan-science/PaNET/PaNET01196',
-                'PaNET:PaNET01196',
-                'PaNET01196',
+                "http://purl.org/pan-science/PaNET/PaNET01196",
+                "PaNET:PaNET01196",
+                "PaNET01196",
             ],
         ),
     ],
     source: Annotated[
         str,
         Query(
-            description='Source ontology. The current demonstrator supports PANET.',
-            examples=['PANET'],
+            description="Source ontology. The current demonstrator supports PANET.",
+            examples=["PANET"],
         ),
-    ] = 'PANET',
+    ] = "PANET",
     target: Annotated[
         str,
         Query(
-            description='Target ontology. The current demonstrator supports ESRFET.',
-            examples=['ESRFET'],
+            description="Target ontology. The current demonstrator supports ESRFET.",
+            examples=["ESRFET"],
         ),
-    ] = 'ESRFET',
+    ] = "ESRFET",
 ) -> MappingResponse:
     mappings = []
-    if source.upper() == 'PANET' and target.upper() == 'ESRFET':
+    if source.upper() == "PANET" and target.upper() == "ESRFET":
         mappings = [MappingResult(**mapping) for mapping in query_panet_to_esrfet(term)]
 
     return MappingResponse(
@@ -322,121 +322,121 @@ def map_panet_to_esrfet(
     )
 
 
-@app.get('/health', tags=['Service'], summary='Health check')
+@app.get("/health", tags=["Service"], summary="Health check")
 def health() -> dict[str, str]:
-    return {'status': 'ok'}
+    return {"status": "ok"}
 
 
 def add_semantic_annotations(openapi_schema: dict) -> dict:
-    openapi_schema['x-supported-ontologies'] = {
-        'ESRFET': ESRFET.rstrip('#'),
-        'ESRFET-PURL': ESRFET_PURL.rstrip('#'),
-        'PaNET': PANET.rstrip('/'),
-        'OWL': OWL.rstrip('#'),
-        'OWL-Time': OWL_TIME.rstrip('#'),
-        'XSD': XSD.rstrip('#'),
-        'DCAT': DCAT.rstrip('#'),
-        'Dublin Core Terms': DCTERMS.rstrip('/'),
-        'schema.org': SCHEMA.rstrip('/'),
+    openapi_schema["x-supported-ontologies"] = {
+        "ESRFET": ESRFET.rstrip("#"),
+        "ESRFET-PURL": ESRFET_PURL.rstrip("#"),
+        "PaNET": PANET.rstrip("/"),
+        "OWL": OWL.rstrip("#"),
+        "OWL-Time": OWL_TIME.rstrip("#"),
+        "XSD": XSD.rstrip("#"),
+        "DCAT": DCAT.rstrip("#"),
+        "Dublin Core Terms": DCTERMS.rstrip("/"),
+        "schema.org": SCHEMA.rstrip("/"),
     }
 
-    operation = openapi_schema['paths']['/catalogue/public/datasets']['get']
-    operation['x-semantic-operation'] = {
-        'type': DCAT + 'DataService',
-        'returns': DCAT + 'Dataset',
-        'supportedOntologies': ['ESRFET', 'OWL-Time', 'XSD', 'DCAT', 'schema.org'],
+    operation = openapi_schema["paths"]["/catalogue/public/datasets"]["get"]
+    operation["x-semantic-operation"] = {
+        "type": DCAT + "DataService",
+        "returns": DCAT + "Dataset",
+        "supportedOntologies": ["ESRFET", "OWL-Time", "XSD", "DCAT", "schema.org"],
     }
-    operation['x-jsonld-context'] = {
-        'dcat': DCAT,
-        'dcterms': DCTERMS,
-        'schema': SCHEMA,
-        'esrfet': ESRFET,
-        'time': OWL_TIME,
-        'xsd': XSD,
+    operation["x-jsonld-context"] = {
+        "dcat": DCAT,
+        "dcterms": DCTERMS,
+        "schema": SCHEMA,
+        "esrfet": ESRFET,
+        "time": OWL_TIME,
+        "xsd": XSD,
     }
 
     parameter_annotations = {
-        'startDate': {
-            'x-semantic-type': OWL_TIME + 'Instant',
-            'x-datatype': XSD + 'dateTime',
-            'x-jsonld-property': SCHEMA + 'startDate',
+        "startDate": {
+            "x-semantic-type": OWL_TIME + "Instant",
+            "x-datatype": XSD + "dateTime",
+            "x-jsonld-property": SCHEMA + "startDate",
         },
-        'endDate': {
-            'x-semantic-type': OWL_TIME + 'Instant',
-            'x-datatype': XSD + 'dateTime',
-            'x-jsonld-property': SCHEMA + 'endDate',
+        "endDate": {
+            "x-semantic-type": OWL_TIME + "Instant",
+            "x-datatype": XSD + "dateTime",
+            "x-jsonld-property": SCHEMA + "endDate",
         },
-        'techniquePids': {
-            'x-semantic-type': ESRFET + 'experimental_technique',
-            'x-ontology': ESRFET.rstrip('#'),
-            'x-value-kind': 'comma-separated-iri-list',
-            'x-jsonld-property': ESRFET + 'usesTechnique',
+        "techniquePids": {
+            "x-semantic-type": ESRFET + "experimental_technique",
+            "x-ontology": ESRFET.rstrip("#"),
+            "x-value-kind": "comma-separated-iri-list",
+            "x-jsonld-property": ESRFET + "usesTechnique",
         },
-        'instrumentName': {
-            'x-semantic-type': SCHEMA + 'instrument',
-            'x-jsonld-property': SCHEMA + 'instrument',
+        "instrumentName": {
+            "x-semantic-type": SCHEMA + "instrument",
+            "x-jsonld-property": SCHEMA + "instrument",
         },
     }
 
-    for parameter in operation.get('parameters', []):
-        parameter.update(parameter_annotations.get(parameter['name'], {}))
+    for parameter in operation.get("parameters", []):
+        parameter.update(parameter_annotations.get(parameter["name"], {}))
 
-    icat_operation = openapi_schema['paths']['/icat/catalogue/public/datasets']['get']
-    icat_operation['x-semantic-operation'] = {
-        'type': DCAT + 'DataService',
-        'upstream': ICAT_PUBLIC_DATASETS_URL,
-        'forwardsOnlyQueryParameters': [
-            'startDate',
-            'endDate',
-            'techniquePids',
-            'instrumentName',
+    icat_operation = openapi_schema["paths"]["/icat/catalogue/public/datasets"]["get"]
+    icat_operation["x-semantic-operation"] = {
+        "type": DCAT + "DataService",
+        "upstream": ICAT_PUBLIC_DATASETS_URL,
+        "forwardsOnlyQueryParameters": [
+            "startDate",
+            "endDate",
+            "techniquePids",
+            "instrumentName",
         ],
-        'returns': DCAT + 'Dataset',
-        'supportedOntologies': ['ESRFET', 'OWL-Time', 'XSD', 'DCAT', 'schema.org'],
+        "returns": DCAT + "Dataset",
+        "supportedOntologies": ["ESRFET", "OWL-Time", "XSD", "DCAT", "schema.org"],
     }
-    icat_operation['x-jsonld-context'] = operation['x-jsonld-context']
+    icat_operation["x-jsonld-context"] = operation["x-jsonld-context"]
     icat_parameter_annotations = {
         **parameter_annotations,
-        'startDate': {
-            'x-semantic-type': OWL_TIME + 'Instant',
-            'x-datatype': XSD + 'date',
-            'x-jsonld-property': SCHEMA + 'startDate',
+        "startDate": {
+            "x-semantic-type": OWL_TIME + "Instant",
+            "x-datatype": XSD + "date",
+            "x-jsonld-property": SCHEMA + "startDate",
         },
-        'endDate': {
-            'x-semantic-type': OWL_TIME + 'Instant',
-            'x-datatype': XSD + 'date',
-            'x-jsonld-property': SCHEMA + 'endDate',
+        "endDate": {
+            "x-semantic-type": OWL_TIME + "Instant",
+            "x-datatype": XSD + "date",
+            "x-jsonld-property": SCHEMA + "endDate",
         },
     }
-    for parameter in icat_operation.get('parameters', []):
-        parameter.update(icat_parameter_annotations.get(parameter['name'], {}))
+    for parameter in icat_operation.get("parameters", []):
+        parameter.update(icat_parameter_annotations.get(parameter["name"], {}))
 
-    mapping_operation = openapi_schema['paths']['/map']['get']
-    mapping_operation['x-semantic-operation'] = {
-        'type': 'https://schema.org/Action',
-        'sourceOntology': PANET.rstrip('/'),
-        'targetOntology': ESRFET_PURL.rstrip('#'),
-        'mappingPredicate': OWL + 'equivalentClass',
-        'queryEngine': 'OWL/XML ontology loaded with owlready2 and queried as RDF with SPARQL',
+    mapping_operation = openapi_schema["paths"]["/map"]["get"]
+    mapping_operation["x-semantic-operation"] = {
+        "type": "https://schema.org/Action",
+        "sourceOntology": PANET.rstrip("/"),
+        "targetOntology": ESRFET_PURL.rstrip("#"),
+        "mappingPredicate": OWL + "equivalentClass",
+        "queryEngine": "OWL/XML ontology loaded with owlready2 and queried as RDF with SPARQL",
     }
     mapping_parameter_annotations = {
-        'term': {
-            'x-semantic-type': PANET + 'PaNETConcept',
-            'x-ontology': PANET.rstrip('/'),
-            'x-value-kind': 'iri-or-curie',
-            'x-query-role': 'source ontology term',
+        "term": {
+            "x-semantic-type": PANET + "PaNETConcept",
+            "x-ontology": PANET.rstrip("/"),
+            "x-value-kind": "iri-or-curie",
+            "x-query-role": "source ontology term",
         },
-        'source': {
-            'x-semantic-type': 'https://schema.org/DefinedTermSet',
-            'x-default-ontology': PANET.rstrip('/'),
+        "source": {
+            "x-semantic-type": "https://schema.org/DefinedTermSet",
+            "x-default-ontology": PANET.rstrip("/"),
         },
-        'target': {
-            'x-semantic-type': 'https://schema.org/DefinedTermSet',
-            'x-default-ontology': ESRFET_PURL.rstrip('#'),
+        "target": {
+            "x-semantic-type": "https://schema.org/DefinedTermSet",
+            "x-default-ontology": ESRFET_PURL.rstrip("#"),
         },
     }
-    for parameter in mapping_operation.get('parameters', []):
-        parameter.update(mapping_parameter_annotations.get(parameter['name'], {}))
+    for parameter in mapping_operation.get("parameters", []):
+        parameter.update(mapping_parameter_annotations.get(parameter["name"], {}))
 
     return openapi_schema
 

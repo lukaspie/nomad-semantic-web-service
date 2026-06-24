@@ -9,40 +9,40 @@ from owlready2 import PREDEFINED_ONTOLOGIES, World
 from rdflib import Graph
 
 ESRFET_ONTOLOGY_PATH = (
-    Path(__file__).resolve().parent.parent / 'ontologies' / 'ESRFET.owl'
+    Path(__file__).resolve().parent.parent / "ontologies" / "ESRFET.owl"
 )
-ESRFET_PURL_PREFIX = 'http://purl.org/pan-science/ESRFET#'
-PANET_PURL_PREFIX = 'http://purl.org/pan-science/PaNET/'
-PANET_IMPORT_IRI = 'http://purl.org/pan-science/PaNET/PaNET.owl'
+ESRFET_PURL_PREFIX = "http://purl.org/pan-science/ESRFET#"
+PANET_PURL_PREFIX = "http://purl.org/pan-science/PaNET/"
+PANET_IMPORT_IRI = "http://purl.org/pan-science/PaNET/PaNET.owl"
 
 
 def normalize_panet_term(term: str) -> str:
     cleaned = term.strip()
-    if cleaned.startswith('http://') or cleaned.startswith('https://'):
+    if cleaned.startswith("http://") or cleaned.startswith("https://"):
         return cleaned
-    if cleaned.startswith('PaNET:'):
-        cleaned = cleaned.split(':', 1)[1]
-    return PANET_PURL_PREFIX + cleaned.lstrip('#/')
+    if cleaned.startswith("PaNET:"):
+        cleaned = cleaned.split(":", 1)[1]
+    return PANET_PURL_PREFIX + cleaned.lstrip("#/")
 
 
 def compact_iri(iri: str) -> str:
     if iri.startswith(ESRFET_PURL_PREFIX):
-        return 'ESRFET:' + iri.removeprefix(ESRFET_PURL_PREFIX)
+        return "ESRFET:" + iri.removeprefix(ESRFET_PURL_PREFIX)
     if iri.startswith(PANET_PURL_PREFIX):
-        return 'PaNET:' + iri.removeprefix(PANET_PURL_PREFIX)
+        return "PaNET:" + iri.removeprefix(PANET_PURL_PREFIX)
     return iri
 
 
 def label_from_iri(iri: str) -> str:
-    fragment = iri.rsplit('#', 1)[-1].rsplit('/', 1)[-1]
-    return fragment.replace('_', ' ')
+    fragment = iri.rsplit("#", 1)[-1].rsplit("/", 1)[-1]
+    return fragment.replace("_", " ")
 
 
 def _register_panet_import_placeholder() -> None:
     if PANET_IMPORT_IRI in PREDEFINED_ONTOLOGIES:
         return
 
-    placeholder = NamedTemporaryFile('w', suffix='.owl', delete=False)
+    placeholder = NamedTemporaryFile("w", suffix=".owl", delete=False)
     placeholder.write(
         """<?xml version="1.0"?>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -84,12 +84,12 @@ ORDER BY ?esrfet
     graph = load_esrfet_graph()
     return [
         {
-            'sourceTerm': panet_iri,
-            'sourceCompact': compact_iri(panet_iri),
-            'targetTerm': str(row.esrfet),
-            'targetCompact': compact_iri(str(row.esrfet)),
-            'targetLabel': label_from_iri(str(row.esrfet)),
-            'relation': 'owl:equivalentClass',
+            "sourceTerm": panet_iri,
+            "sourceCompact": compact_iri(panet_iri),
+            "targetTerm": str(row.esrfet),
+            "targetCompact": compact_iri(str(row.esrfet)),
+            "targetLabel": label_from_iri(str(row.esrfet)),
+            "relation": "owl:equivalentClass",
         }
         for row in graph.query(query)
     ]

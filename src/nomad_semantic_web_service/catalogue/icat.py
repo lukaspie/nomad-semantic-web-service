@@ -5,8 +5,8 @@ from typing import Any
 
 import httpx
 
-ICAT_BASE_URL = 'https://icatplus.esrf.fr'
-ICAT_PUBLIC_DATASETS_PATH = '/catalogue/public/datasets'
+ICAT_BASE_URL = "https://icatplus.esrf.fr"
+ICAT_PUBLIC_DATASETS_PATH = "/catalogue/public/datasets"
 ICAT_PUBLIC_DATASETS_URL = ICAT_BASE_URL + ICAT_PUBLIC_DATASETS_PATH
 
 
@@ -19,7 +19,7 @@ def serialize_date_for_icat_query(value: date | datetime) -> str:
 def serialize_datetime_for_query(value: datetime) -> str:
     serialized = value.isoformat()
     if value.tzinfo is not None and value.utcoffset() == timezone.utc.utcoffset(value):
-        return serialized.replace('+00:00', 'Z')
+        return serialized.replace("+00:00", "Z")
     return serialized
 
 
@@ -30,13 +30,13 @@ def build_icat_public_dataset_params(
     instrument_name: str | None,
 ) -> dict[str, str]:
     params = {
-        'startDate': serialize_date_for_icat_query(start_date),
-        'endDate': serialize_date_for_icat_query(end_date),
+        "startDate": serialize_date_for_icat_query(start_date),
+        "endDate": serialize_date_for_icat_query(end_date),
     }
     if technique_pids:
-        params['techniquePids'] = technique_pids
+        params["techniquePids"] = technique_pids
     if instrument_name:
-        params['instrumentName'] = instrument_name
+        params["instrumentName"] = instrument_name
     return params
 
 
@@ -49,8 +49,8 @@ def landing_page_for_dataset(dataset: dict[str, Any]) -> str | None:
     `/doi/{prefix}/{suffix}/datasets` route in https://icatplus.esrf.fr/swagger.json),
     so it's resolved through the standard DOI resolver instead.
     """
-    doi = dataset.get('investigation', {}).get('doi')
-    return f'https://doi.org/{doi}' if doi else None
+    doi = dataset.get("investigation", {}).get("doi")
+    return f"https://doi.org/{doi}" if doi else None
 
 
 def fetch_icat_public_datasets(
@@ -71,7 +71,7 @@ def fetch_icat_public_datasets(
                 technique_pids=technique_pids,
                 instrument_name=instrument_name,
             ),
-            headers={'accept': 'application/json'},
+            headers={"accept": "application/json"},
         )
         response.raise_for_status()
         return response.json()
