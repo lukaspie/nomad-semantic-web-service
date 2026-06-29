@@ -1,0 +1,984 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A tool to query public synchrotron dataset catalogues with semantic OpenAPI annotations.">
+      
+      
+        <meta name="author" content="Lukas Pielsticker">
+      
+      
+      
+        <link rel="prev" href="../how_to/contribute_to_the_documentation.html">
+      
+      
+        <link rel="next" href="../reference/references.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Explanation - nomad-semantic-web-service</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Titillium Web";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="#2A4CDF" data-md-color-accent="#008A67">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#explanation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="header.title">
+    <a href="https://nomad-lab.eu" title="nomad-semantic-web-service" class="md-header__button md-logo" aria-label="nomad-semantic-web-service" data-md-component="logo">
+      
+  <img src="../assets/nomad-plugin-logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            nomad-semantic-web-service
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Explanation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/FAIRmat-NFDI/nomad-semantic-web-service" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://nomad-lab.eu" title="nomad-semantic-web-service" class="md-nav__button md-logo" aria-label="nomad-semantic-web-service" data-md-component="logo">
+      
+  <img src="../assets/nomad-plugin-logo.png" alt="logo">
+
+    </a>
+    nomad-semantic-web-service
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/FAIRmat-NFDI/nomad-semantic-web-service" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorial/tutorial.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorial
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How-to guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    How-to guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../how_to/install_this_plugin.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install this Plugin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../how_to/use_this_plugin.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use this Plugin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../how_to/contribute_to_this_plugin.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contribute to this plugin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../how_to/contribute_to_the_documentation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contribute to the documentation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Explanation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="explanation.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Explanation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#provenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Provenance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cataloguedemo_datafake_datasets-mirrors-the-real-icat-response-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        catalogue.demo_data.FAKE_DATASETS mirrors the real ICAT+ response shape
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anonymous-file-download-for-public-datasets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anonymous file download for public datasets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#two-iri-namespaces-for-esrfet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Two IRI namespaces for ESRFET
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-search-runs-automatically-but-search_key-prevents-redundant-reruns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The search runs automatically, but search_key prevents redundant reruns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#external-icat-failures-are-logged-as-warnings-not-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        External (ICAT+) failures are logged as warnings, not errors
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#technique_pids-is-a-string-not-a-shape-array" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        technique_pids is a string, not a shape=['*'] array
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-servercontext-only-guards-the-icat-call" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why ServerContext only guards the ICAT+ call
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-note-on-the-rdflib-sparql-dependency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A note on the rdflib SPARQL dependency
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reference/references.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#provenance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Provenance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cataloguedemo_datafake_datasets-mirrors-the-real-icat-response-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        catalogue.demo_data.FAKE_DATASETS mirrors the real ICAT+ response shape
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anonymous-file-download-for-public-datasets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anonymous file download for public datasets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#two-iri-namespaces-for-esrfet" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Two IRI namespaces for ESRFET
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-search-runs-automatically-but-search_key-prevents-redundant-reruns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The search runs automatically, but search_key prevents redundant reruns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#external-icat-failures-are-logged-as-warnings-not-errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        External (ICAT+) failures are logged as warnings, not errors
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#technique_pids-is-a-string-not-a-shape-array" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        technique_pids is a string, not a shape=['*'] array
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-servercontext-only-guards-the-icat-call" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why ServerContext only guards the ICAT+ call
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-note-on-the-rdflib-sparql-dependency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A note on the rdflib SPARQL dependency
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="explanation">Explanation<a class="headerlink" href="#explanation" title="Permanent link">&para;</a></h1>
+<h2 id="provenance">Provenance<a class="headerlink" href="#provenance" title="Permanent link">&para;</a></h2>
+<p>This plugin is built on top of <a href="https://github.com/gkoum/oscarsSemanticWebService"><code>oscarsSemanticWebService</code></a>,
+a FastAPI proof-of-concept by Giannis Koumoutsos for an ESRF-style catalogue
+endpoint with semantic OpenAPI annotations. Its routes, models, and PANET/ESRFET
+ontology mapping logic were ported into <code>catalogue/</code>, <code>apis/</code>, and exposed
+additionally as the <code>DatasetSearchRequest</code> ELN schema described below.</p>
+<h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h2>
+<p>This plugin has three layers, mirroring the repository's "schemas ≠ runtime logic"
+principle:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Module</th>
+<th>Depends on FastAPI?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Domain logic</td>
+<td><code>catalogue/icat.py</code>, <code>catalogue/ontology.py</code>, <code>catalogue/search.py</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td>REST API</td>
+<td><code>apis/api.py</code>, <code>apis/__init__.py</code></td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>ELN schema</td>
+<td><code>schema_packages/schema.py</code>, <code>schema_packages/__init__.py</code></td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+<p>The domain layer has no FastAPI dependency, so both the mounted REST API and the
+ELN schema's <code>normalize()</code> import and call its plain Python functions directly.
+Earlier work on a related ontology service in <code>pynxtools</code> (commit <code>abad72f1</code>,
+later reverted in <code>ab6deb48</code>) had a schema's <code>normalize()</code> call its own mounted
+API over <code>http://localhost:8000</code> loopback — this plugin deliberately avoids that
+pattern.</p>
+<h2 id="cataloguedemo_datafake_datasets-mirrors-the-real-icat-response-shape"><code>catalogue.demo_data.FAKE_DATASETS</code> mirrors the real ICAT+ response shape<a class="headerlink" href="#cataloguedemo_datafake_datasets-mirrors-the-real-icat-response-shape" title="Permanent link">&para;</a></h2>
+<p><code>catalogue/demo_data.py</code> holds the local demo dataset records, kept deliberately
+separate from <code>catalogue/search.py</code>'s actual search/filter logic. Its records are
+shaped like real <code>/catalogue/public/datasets</code> responses from <code>icatplus.esrf.fr</code>
+(confirmed against the live endpoint and its <code>swagger.json</code>, even though that
+specific public route isn't itself documented there): <code>techniques</code> is a list of
+<code>{..., "pid": str}</code> objects rather than a flat PID list, and a public landing
+page comes from <code>investigation.doi</code> (resolved via
+<code>catalogue.icat.landing_page_for_dataset()</code>), not a top-level <code>location</code> (which
+is an internal ESRF storage path on real records, not itself a public URL).
+Keeping the demo data isomorphic to the real shape means <code>catalogue.search.technique_pids_of()</code>
+and <code>catalogue.icat.landing_page_for_dataset()</code> work identically for both, with
+no shape-detection branching needed anywhere in the plugin.</p>
+<p><code>FAKE_DATASETS</code>' dates are 2021–2022, matching <code>DatasetSearchRequest.start_date</code>/
+<code>end_date</code>'s defaults, so the demo data is found without changing anything
+just by saving a new entry.</p>
+<h2 id="anonymous-file-download-for-public-datasets">Anonymous file download for public datasets<a class="headerlink" href="#anonymous-file-download-for-public-datasets" title="Permanent link">&para;</a></h2>
+<p><code>GET /ids/data/download?datasetIds=&lt;id&gt;</code> works <strong>without authentication</strong> for
+public datasets: its swagger security scheme is <code>[{bearerAuth: []}, {}]</code> — the
+empty alternative means auth is optional — and ICAT+ auto-issues an anonymous
+session, redirecting to <code>ids.esrf.fr/ids/getData?sessionId=...</code> with the real
+file content (confirmed empirically by downloading a real public dataset's zip
+archive with no credentials at all). <code>data.esrf.fr</code> ("Data Portal") is a nicer
+UI over the same backend, but its download/reprocess actions are gated behind
+login for convenience/attribution, not because anonymous IDS access is blocked.</p>
+<p><code>catalogue.icat.download_dataset_archive()</code> implements this: it always
+downloads anonymously, optionally filtered to specific file extensions
+(<code>file_extensions_filter</code> on <code>MatchedDataset</code> defaults to <code>h5</code>, since whole
+datasets can be much larger than a typical text/metadata file). Format
+filtering needs the dataset's individual files first (<code>list_datafiles()</code>, via
+the anonymous session minted by <code>get_anonymous_session_id()</code>), since
+<code>/ids/data/download</code> only accepts <code>datasetIds</code> (whole dataset) or <code>datafileIds</code>
+(an explicit id list), not a format/extension parameter directly. This is
+exposed both as a REST route
+(<code>GET /catalogue/public/datasets/{id}/download?fileExtensions=...</code>, which
+returns the zip as-is) and as a <code>trigger_download</code> action on <code>MatchedDataset</code>
+in the ELN schema, which goes a step further: <code>catalogue.icat.extract_zip_members()</code>
+unpacks the downloaded zip in memory, and each member is written into the
+upload under <code>dataset-&lt;id&gt;/</code> via <code>archive.m_context.raw_file(name, 'wb')</code>
+(after <code>archive.m_context.upload_files.raw_create_directory(...)</code> for any
+intermediate directories — <code>raw_file()</code> does not auto-create them), then the
+zip itself is discarded rather than kept alongside the extracted copy. This
+makes individual files browsable/downloadable in the GUI and means other
+parsers could in principle pick them up, neither of which a single opaque zip
+blob would allow. Both download paths only work against real ICAT+ data
+(<code>use_real_icat=True</code>); the local demo data has no real files behind it.</p>
+<p>Real ICAT+ archives have been observed to contain zip entries with doubled
+slashes (e.g. <code>"poi28997_35602//35602_args.json"</code>) and/or a leading slash.
+<code>nomad.common.is_safe_relative_path()</code> rejects both outright (<code>'//' in path</code>,
+or starting with <code>'/'</code>), which would otherwise crash the <code>raw_file()</code>/
+<code>raw_create_directory()</code> calls above. <code>extract_zip_members()</code> normalizes every
+member name (<code>normalize_zip_member_name()</code>, collapsing repeated slashes and
+stripping any leading one) before it's used as a path.</p>
+<h2 id="two-iri-namespaces-for-esrfet">Two IRI namespaces for ESRFET<a class="headerlink" href="#two-iri-namespaces-for-esrfet" title="Permanent link">&para;</a></h2>
+<p>The plugin works with technique terms in two distinct namespaces that look similar
+but are not interchangeable:</p>
+<ul>
+<li><code>https://w3id.org/PaN/ESRFET#</code> — the published namespace used on dataset
+  records (<code>Dataset.techniquePids</code>, <code>catalogue.demo_data.FAKE_DATASETS</code>).</li>
+<li><code>http://purl.org/pan-science/ESRFET#</code> — the namespace used internally by
+  <code>ESRFET.owl</code> for <code>owl:equivalentClass</code> axioms against PANET terms.</li>
+</ul>
+<p><code>catalogue.search.canonical_technique_pid()</code> converts the <code>purl.org</code> form to the
+<code>w3id.org</code> form so a PANET→ESRFET mapping result can be matched against dataset
+records. <code>catalogue.search.normalize_esrfet_term()</code> normalizes user-typed ESRFET
+terms (e.g. <code>"XAS"</code>, <code>"ESRFET:XAS"</code>) directly to the <code>w3id.org</code> form.</p>
+<h2 id="the-search-runs-automatically-but-search_key-prevents-redundant-reruns">The search runs automatically, but <code>search_key</code> prevents redundant reruns<a class="headerlink" href="#the-search-runs-automatically-but-search_key-prevents-redundant-reruns" title="Permanent link">&para;</a></h2>
+<p><code>DatasetSearchRequest.normalize()</code> runs the catalogue search on every save
+once <code>technique_term</code>/dates are set — there's no separate "confirm and run"
+action button. An earlier version gated this behind a <code>trigger_search</code> action
+(mirroring the original CLI's confirmation prompt before searching), but in
+practice this just meant an extra mandatory save before anything useful
+appeared, for limited benefit; it was removed.</p>
+<p>Auto-running on every save creates a real hazard, though: <code>_run_search()</code>
+rebuilds <code>matched_datasets</code> from scratch. Saving for an unrelated reason — e.g.
+setting <code>file_extensions_filter</code> and clicking <strong>Download Files</strong> on an
+existing <code>MatchedDataset</code> item — would otherwise discard that item (and its
+in-progress download state) before it ever got a chance to run, since the
+parent's <code>normalize()</code> runs first and replaces the whole list. <code>search_key</code>
+caches a fingerprint of the actual search inputs (date window, resolved term,
+instrument, <code>use_real_icat</code>) and skips re-running the search when it hasn't
+changed, so <code>matched_datasets</code> is only rebuilt when the search itself should
+actually change.</p>
+<h2 id="external-icat-failures-are-logged-as-warnings-not-errors">External (ICAT+) failures are logged as warnings, not errors<a class="headerlink" href="#external-icat-failures-are-logged-as-warnings-not-errors" title="Permanent link">&para;</a></h2>
+<p><code>_run_search()</code> and <code>MatchedDataset.normalize()</code> both catch failures from
+their respective ICAT+ calls and log them — deliberately via <code>logger.warning()</code>,
+not <code>logger.error()</code>. <code>EntryProc.get_logger()</code>
+(<code>nomad/processing/data.py</code>) appends every <code>logger.error()</code> call to
+<code>entry_metadata.processing_errors</code>, which marks the entry with a processing
+error badge in the GUI. An ICAT+ outage (e.g. <code>/catalogue/public/datasets</code>
+returning a bare 404 — it isn't in <code>swagger.json</code>, so it's evidently
+undocumented/unofficial and was observed to disappear without warning) is an
+external dependency being unavailable, not a defect in the entry's own data;
+<code>use_real_icat</code>'s results being temporarily empty shouldn't read as "this
+entry is broken."</p>
+<h2 id="technique_pids-is-a-string-not-a-shape-array"><code>technique_pids</code> is a string, not a <code>shape=['*']</code> array<a class="headerlink" href="#technique_pids-is-a-string-not-a-shape-array" title="Permanent link">&para;</a></h2>
+<p><code>MatchedDataset.technique_pids</code> was originally <code>Quantity(type=str,
+shape=['*'])</code> (an array of IRIs). In practice, saving an entry from the GUI
+after a search occasionally persisted this field as <code>{}</code> instead of a list,
+which crashed reprocessing entirely with <code>ValueError: Cannot identify type for
+{}.</code> (raised by the array-handling branch of <code>nomad.metainfo.data_type
+.Primitive.normalize()</code>, reached because the quantity has a shape — i.e. is
+not "scalar" — and <code>{}</code> is neither <code>list</code>, <code>tuple</code>, nor <code>ndarray</code>). The
+<code>shape=['*']</code> was unnecessary for a read-only field with no array-specific
+GUI editor; it's now a single comma-joined string, which sidesteps the array
+code path entirely.</p>
+<h2 id="why-servercontext-only-guards-the-icat-call">Why <code>ServerContext</code> only guards the ICAT+ call<a class="headerlink" href="#why-servercontext-only-guards-the-icat-call" title="Permanent link">&para;</a></h2>
+<p><code>DatasetSearchRequest.normalize()</code> only skips the real ESRF ICAT+ HTTP call when
+<code>archive.m_context</code> is not a <code>ServerContext</code> (i.e. running offline, such as in
+tests). The local fake-dataset search and the PANET/ESRFET ontology mapping run
+unconditionally, since both are local, fast, and deterministic — only the
+outbound network call to <code>icatplus.esrf.fr</code> needs guarding.</p>
+<h2 id="a-note-on-the-rdflib-sparql-dependency">A note on the <code>rdflib</code> SPARQL dependency<a class="headerlink" href="#a-note-on-the-rdflib-sparql-dependency" title="Permanent link">&para;</a></h2>
+<p>PANET↔ESRFET mapping (<code>catalogue/ontology.py</code>) queries <code>ESRFET.owl</code> with SPARQL
+via <code>rdflib</code>. <code>nomad-lab</code>'s own <code>infrastructure</code> extra pins <code>rdflib==5</code> across
+this uv workspace; that version's bundled SPARQL parser is incompatible with
+<code>pyparsing&gt;=3</code> (any query fails with
+<code>AttributeError: 'NoneType' object has no attribute 'name'</code>). This plugin pins
+<code>pyparsing&lt;3</code> in its own dependencies to restore working SPARQL support
+workspace-wide, since nothing else in the workspace constrains <code>pyparsing</code> to a
+specific version.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.instant"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../javascript.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
