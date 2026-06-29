@@ -1,7 +1,6 @@
 data:
-  m_def: nomad_semantic_web_service.schema_packages.schema_package.DatasetSearchRequest
+  m_def: nomad_semantic_web_service.schema_packages.schema.DatasetSearchRequest
   synchrotron: ESRF
   vocabulary: ESRFET
   technique_term: XAS
   instrument_name: ID21
-  trigger_search: true

@@ -4,12 +4,15 @@ from datetime import date, datetime
 from typing import Annotated, Any
 
 import httpx
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, Response
 from fastapi.openapi.utils import get_openapi
 from nomad.config import config
 from pydantic import BaseModel, ConfigDict, Field
 
-from nomad_semantic_web_service.catalogue.icat import ICAT_PUBLIC_DATASETS_URL
+from nomad_semantic_web_service.catalogue.icat import (
+    ICAT_PUBLIC_DATASETS_URL,
+    download_dataset_archive,
+)
 from nomad_semantic_web_service.catalogue.ontology import query_panet_to_esrfet
 from nomad_semantic_web_service.catalogue.search import (
     search_icat_datasets,
@@ -269,6 +272,56 @@ def get_real_icat_public_datasets(
                 "message": str(exc),
             },
         ) from exc
+
+
+@app.get(
+    "/catalogue/public/datasets/{dataset_id}/download",
+    tags=["ICAT Proxy"],
+    summary="Downloads a public dataset as a zip archive",
+    description=(
+        "Downloads a dataset anonymously from ICAT+ as a zip archive. ICAT+ "
+        "issues an anonymous session for public datasets; no authentication "
+        "is required. Optionally filter to only files with the given "
+        "extensions (e.g. 'h5,edf'). There is no separate file-format filter "
+        "on the whole-dataset download itself: filtering is done by listing "
+        "the dataset's individual files first and downloading only the "
+        "matching ones."
+    ),
+    operation_id="download_catalogue_public_dataset",
+)
+def download_public_dataset(
+    dataset_id: int,
+    fileExtensions: Annotated[
+        str | None,
+        Query(
+            description="Comma-separated file extensions to include, e.g. 'h5,edf'. Omit to download the whole dataset.",
+            examples=["h5,edf"],
+        ),
+    ] = None,
+) -> Response:
+    extensions = (
+        [ext.strip() for ext in fileExtensions.split(",") if ext.strip()]
+        if fileExtensions
+        else None
+    )
+    try:
+        content = download_dataset_archive(dataset_id, file_extensions=extensions)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except httpx.HTTPStatusError as exc:
+        raise HTTPException(
+            status_code=exc.response.status_code, detail=str(exc)
+        ) from exc
+    except httpx.HTTPError as exc:
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
+
+    return Response(
+        content=content,
+        media_type="application/zip",
+        headers={
+            "Content-Disposition": f'attachment; filename="dataset-{dataset_id}.zip"'
+        },
+    )
 
 
 @app.get(

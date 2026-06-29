@@ -6,7 +6,11 @@ from nomad.datamodel.metainfo.annotations import ELNAnnotation, ELNComponentEnum
 from nomad.metainfo import Datetime, MEnum, Quantity, SchemaPackage
 from nomad.metainfo.metainfo import Section, SubSection
 
-from nomad_semantic_web_service.catalogue.icat import landing_page_for_dataset
+from nomad_semantic_web_service.catalogue.icat import (
+    download_dataset_archive,
+    extract_zip_members,
+    landing_page_for_dataset,
+)
 from nomad_semantic_web_service.catalogue.ontology import query_panet_to_esrfet
 from nomad_semantic_web_service.catalogue.search import (
     normalize_esrfet_term,
@@ -38,19 +42,101 @@ class MatchedDataset(ArchiveSection):
     )
     technique_pids = Quantity(
         type=str,
-        shape=["*"],
-        description="ESRFET technique IRIs associated with the dataset.",
+        description=(
+            "Comma-separated ESRFET technique IRIs associated with the dataset."
+        ),
     )
     sample_name = Quantity(type=str, description="Name/description of the sample.")
     landing_page = Quantity(
         type=str,
         description=(
             "DOI-based landing page for the dataset (https://doi.org/<doi>), "
-            "resolved from the dataset record. Not a direct file download link: "
-            "ICAT+ has no generic, unauthenticated download URL for the "
-            "underlying files."
+            "resolved from the dataset record."
         ),
     )
+    file_extensions_filter = Quantity(
+        type=str,
+        default="h5",
+        description=(
+            'Comma-separated file extensions to download, e.g. "h5,edf". Leave '
+            "empty to download the whole dataset (can be much larger)."
+        ),
+        a_eln=ELNAnnotation(component=ELNComponentEnum.StringEditQuantity),
+    )
+    trigger_download = Quantity(
+        type=bool,
+        default=False,
+        description=(
+            "Downloads this dataset (filtered by file_extensions_filter, if "
+            "set) from ICAT+ and extracts it into this upload, under "
+            "downloaded_folder. ICAT+ issues an anonymous session for public "
+            "datasets, so no credentials are needed; only works against the "
+            "real ICAT+ endpoint (use_real_icat), not the local demo data, "
+            "which has no real files behind it."
+        ),
+        a_eln=ELNAnnotation(
+            component=ELNComponentEnum.ActionEditQuantity, label="Download Files"
+        ),
+    )
+    downloaded_folder = Quantity(
+        type=str,
+        description="Path (within this upload) where the downloaded dataset files were extracted.",
+    )
+    downloaded_files = Quantity(
+        type=str,
+        description="Comma-separated names of the extracted files, relative to downloaded_folder.",
+    )
+
+    def normalize(self, archive: "EntryArchive", logger: "BoundLogger") -> None:
+        super().normalize(archive, logger)
+
+        if not self.trigger_download:
+            return
+
+        from nomad.datamodel.context import ServerContext
+
+        if not isinstance(archive.m_context, ServerContext):
+            # Skip the outbound download in offline/test contexts.
+            self.trigger_download = False
+            return
+
+        try:
+            extensions = (
+                [
+                    ext.strip()
+                    for ext in self.file_extensions_filter.split(",")
+                    if ext.strip()
+                ]
+                if self.file_extensions_filter
+                else None
+            )
+            content = download_dataset_archive(
+                self.dataset_id, file_extensions=extensions
+            )
+            folder = f"dataset-{self.dataset_id}"
+            archive.m_context.upload_files.raw_create_directory(folder)
+
+            extracted = []
+            for member_name, data in extract_zip_members(content):
+                member_dir = "/".join(member_name.split("/")[:-1])
+                if member_dir:
+                    archive.m_context.upload_files.raw_create_directory(
+                        f"{folder}/{member_dir}"
+                    )
+                with archive.m_context.raw_file(f"{folder}/{member_name}", "wb") as dst:
+                    dst.write(data)
+                extracted.append(member_name)
+
+            self.downloaded_folder = folder
+            self.downloaded_files = ", ".join(extracted)
+        except Exception:
+            # A warning, not an error: this is an external-dependency failure
+            # (ICAT+ unreachable/down), not a defect in this entry's own data,
+            # and logger.error() would mark the entry with a processing error
+            # in the GUI for what may just be a transient outage.
+            logger.warning("Dataset download failed.", exc_info=True)
+        finally:
+            self.trigger_download = False
 
 
 class DatasetSearchRequest(Schema):
@@ -91,13 +177,13 @@ class DatasetSearchRequest(Schema):
     )
     start_date = Quantity(
         type=Datetime,
-        default="2024-01-01T00:00:00+00:00",
+        default="2021-01-01T00:00:00+00:00",
         description="Start date-time of the search window.",
         a_eln=ELNAnnotation(component=ELNComponentEnum.DateTimeEditQuantity),
     )
     end_date = Quantity(
         type=Datetime,
-        default="2024-12-31T23:59:59+00:00",
+        default="2022-12-31T23:59:59+00:00",
         description="End date-time of the search window.",
         a_eln=ELNAnnotation(component=ELNComponentEnum.DateTimeEditQuantity),
     )
@@ -120,24 +206,21 @@ class DatasetSearchRequest(Schema):
         type=str,
         description=(
             "The ESRFET IRI actually used for the search, after PANET->ESRFET "
-            "mapping if vocabulary=PANET. Review this before running the search."
+            "mapping if vocabulary=PANET."
         ),
     )
     mapping_warning = Quantity(
         type=str,
         description="Set if a PANET->ESRFET mapping could not be resolved.",
     )
-    trigger_search = Quantity(
-        type=bool,
-        default=False,
+    search_key = Quantity(
+        type=str,
         description=(
-            "Runs the catalogue search using resolved_technique_term. Kept as an "
-            "explicit action, not an automatic step, so a PANET->ESRFET mapping can "
-            "be reviewed before it is used to search (mirrors the confirmation "
-            "prompt in the original CLI agent)."
-        ),
-        a_eln=ELNAnnotation(
-            component=ELNComponentEnum.ActionEditQuantity, label="Run Search"
+            "Internal cache key of the last completed search (date window, "
+            "resolved term, instrument, use_real_icat). Used to avoid re-running "
+            "the search, and discarding any in-progress downloads on "
+            "matched_datasets items, on every save when the search inputs "
+            "haven't actually changed."
         ),
     )
     matched_datasets = SubSection(section_def=MatchedDataset, repeats=True)
@@ -156,29 +239,37 @@ class DatasetSearchRequest(Schema):
 
         if self.synchrotron != "ESRF":
             logger.warning(f"{self.synchrotron} is not wired to a live endpoint yet.")
-            self.trigger_search = False
             return
         if not self.technique_term:
-            self.trigger_search = False
             return
 
         if self.vocabulary == "PANET":
             mappings = query_panet_to_esrfet(self.technique_term)
             if not mappings:
                 self.mapping_warning = "No ESRFET mapping found for this PANET term."
-                self.trigger_search = False
                 return
             self.resolved_technique_term = mappings[0]["targetTerm"]
         else:
             self.resolved_technique_term = normalize_esrfet_term(self.technique_term)
 
-        if not self.trigger_search:
+        key = "|".join(
+            str(part)
+            for part in (
+                self.start_date,
+                self.end_date,
+                self.resolved_technique_term,
+                self.instrument_name,
+                self.use_real_icat,
+            )
+        )
+        if key == self.search_key and self.matched_datasets:
+            # Search inputs haven't changed since the last run: skip re-running
+            # so that in-progress trigger_download/file_extensions_filter state
+            # on existing matched_datasets items isn't discarded on every save.
             return
+        self.search_key = key
 
-        try:
-            self._run_search(archive, logger)
-        finally:
-            self.trigger_search = False
+        self._run_search(archive, logger)
 
     def _run_search(self, archive: "EntryArchive", logger: "BoundLogger") -> None:
         from nomad.datamodel.context import ServerContext
@@ -198,7 +289,9 @@ class DatasetSearchRequest(Schema):
                 self.instrument_name,
             )
         except Exception:
-            logger.error("Catalogue search failed.", exc_info=True)
+            # A warning, not an error: see the matching note in
+            # MatchedDataset.normalize() above.
+            logger.warning("Catalogue search failed.", exc_info=True)
             return
 
         if not isinstance(raw, list):
@@ -212,7 +305,7 @@ class DatasetSearchRequest(Schema):
                 start_date=dataset.get("startDate"),
                 end_date=dataset.get("endDate"),
                 instrument_name=dataset.get("instrumentName"),
-                technique_pids=technique_pids_of(dataset),
+                technique_pids=", ".join(technique_pids_of(dataset)),
                 sample_name=dataset.get("sampleName"),
                 landing_page=landing_page_for_dataset(dataset),
             )

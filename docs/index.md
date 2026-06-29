@@ -10,11 +10,13 @@ This plugin brings the [`oscarsSemanticWebService`](https://github.com/gkoum/osc
 proof-of-concept by Giannis Koumoutsos into NOMAD as two cooperating entry points:
 
 - A mounted REST API (`/catalogue/public/datasets`, `/icat/catalogue/public/datasets`,
-  `/map`, `/health`) for machine clients, with `x-*` semantic annotations on its
-  OpenAPI contract.
+  `/catalogue/public/datasets/{id}/download`, `/map`, `/health`) for machine
+  clients, with `x-*` semantic annotations on its OpenAPI contract.
 - An ELN schema, `DatasetSearchRequest`, that lets a user describe a catalogue
   search (synchrotron, technique term, date range, instrument) as a NOMAD entry;
   `normalize()` runs the search and stores matched datasets back into the entry.
+  Each matched dataset can then be downloaded — anonymously, optionally
+  filtered by file extension — via a "Download Files" action.
 
 Both share the same underlying domain logic (`catalogue/icat.py`,
 `catalogue/ontology.py`, `catalogue/search.py`), which has no FastAPI dependency

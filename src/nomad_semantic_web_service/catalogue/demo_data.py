@@ -11,8 +11,8 @@ FAKE_DATASETS: list[dict[str, Any]] = [
     {
         "id": 1001,
         "name": "ID21 XAS catalyst oxidation-state dataset",
-        "startDate": datetime(2024, 3, 18, 9, 15, tzinfo=timezone.utc),
-        "endDate": datetime(2024, 3, 18, 11, 45, tzinfo=timezone.utc),
+        "startDate": datetime(2021, 3, 18, 9, 15, tzinfo=timezone.utc),
+        "endDate": datetime(2021, 3, 18, 11, 45, tzinfo=timezone.utc),
         "location": "/data/demo/id21/xas-catalyst",
         "investigation": {"doi": "10.0000/DEMO-ID21-1001"},
         "instrumentName": "ID21",
@@ -29,8 +29,8 @@ FAKE_DATASETS: list[dict[str, Any]] = [
     {
         "id": 1002,
         "name": "ID21 energy-dispersive XAS reference scan",
-        "startDate": datetime(2024, 3, 19, 14, 0, tzinfo=timezone.utc),
-        "endDate": datetime(2024, 3, 19, 18, 30, tzinfo=timezone.utc),
+        "startDate": datetime(2021, 3, 19, 14, 0, tzinfo=timezone.utc),
+        "endDate": datetime(2021, 3, 19, 18, 30, tzinfo=timezone.utc),
         "location": "/data/demo/id21/ed-xas-reference",
         "investigation": {"doi": "10.0000/DEMO-ID21-1002"},
         "instrumentName": "ID21",
@@ -53,8 +53,8 @@ FAKE_DATASETS: list[dict[str, Any]] = [
     {
         "id": 1003,
         "name": "ID24 dispersive XAS battery electrode dataset",
-        "startDate": datetime(2024, 5, 2, 8, 30, tzinfo=timezone.utc),
-        "endDate": datetime(2024, 5, 2, 15, 10, tzinfo=timezone.utc),
+        "startDate": datetime(2021, 5, 2, 8, 30, tzinfo=timezone.utc),
+        "endDate": datetime(2021, 5, 2, 15, 10, tzinfo=timezone.utc),
         "location": "/data/demo/id24/dispersive-xas-electrode",
         "investigation": {"doi": "10.0000/DEMO-ID24-1003"},
         "instrumentName": "ID24",
@@ -71,8 +71,8 @@ FAKE_DATASETS: list[dict[str, Any]] = [
     {
         "id": 1004,
         "name": "High-resolution tomography of heritage material",
-        "startDate": datetime(2024, 9, 12, 7, 45, tzinfo=timezone.utc),
-        "endDate": datetime(2024, 9, 12, 12, 20, tzinfo=timezone.utc),
+        "startDate": datetime(2022, 9, 12, 7, 45, tzinfo=timezone.utc),
+        "endDate": datetime(2022, 9, 12, 12, 20, tzinfo=timezone.utc),
         "location": "/data/demo/id19/tomography-heritage",
         "investigation": {"doi": "10.0000/DEMO-ID19-1004"},
         "instrumentName": "ID19",

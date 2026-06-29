@@ -14,6 +14,7 @@ SPARQL
 STRSTARTS
 TOMO
 beamline
+browsable
 datamodel
 dcat
 dcterms
@@ -24,6 +25,7 @@ icat
 icatplus
 metainfo
 microcrystals
+ndarray
 orcid
 owlready
 panet
